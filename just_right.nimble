@@ -12,3 +12,4 @@ bin           = @["just_right"]
 
 requires "nim >= 1.6.4"
 requires "steganography"
+requires "pixie"
